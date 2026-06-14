@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loomi — Produtos Digitais Sob Medida</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --pink: #FF2D78;
+      --pink-dim: #cc2460;
+      --black: #0a0a0a;
+      --dark: #111111;
+      --card: #181818;
+      --border: #2a2a2a;
+      --white: #ffffff;
+      --gray: #999999;
+      --light: #f5f5f5;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAVBAR ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 6vw;
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.5rem;
+      letter-spacing: -0.5px;
+      color: var(--white);
+      text-decoration: none;
+    }
+    .logo span { color: var(--pink); }
+    nav a.nav-cta {
+      background: var(--pink);
+      color: var(--white);
+      text-decoration: none;
+      padding: 10px 24px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 0.875rem;
+      transition: background 0.2s;
+    }
+    nav a.nav-cta:hover { background: var(--pink-dim); }
+
+    /* ── SECTIONS BASE ── */
+    section { padding: 100px 6vw; }
+    .container { max-width: 1100px; margin: 0 auto; }
+
+    /* fade-in on scroll */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: 120px;
+      position: relative;
+      overflow: hidden;
+    }
+    #hero::before {
+      content: '';
+      position: absolute;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,45,120,0.18) 0%, transparent 70%);
+      top: -100px; right: -150px;
+      pointer-events: none;
+    }
+    #hero::after {
+      content: '';
+      position: absolute;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,45,120,0.1) 0%, transparent 70%);
+      bottom: 0; left: -100px;
+      pointer-events: none;
+    }
+    .hero-label {
+      display: inline-block;
+      background: rgba(255,45,120,0.12);
+      border: 1px solid rgba(255,45,120,0.3);
+      color: var(--pink);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 6px 16px;
+      border-radius: 100px;
+      margin-bottom: 28px;
+    }
+    .hero-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.8rem, 6vw, 5.5rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -2px;
+      margin-bottom: 28px;
+    }
+    .hero-title em {
+      font-style: normal;
+      color: var(--pink);
+    }
+    .hero-subtitle {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--gray);
+      max-width: 540px;
+      margin-bottom: 44px;
+      font-weight: 400;
+    }
+    .btn-primary {
+      display: inline-block;
+      background: var(--pink);
+      color: var(--white);
+      text-decoration: none;
+      padding: 16px 40px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 0 0 0 rgba(255,45,120,0.4);
+    }
+    .btn-primary:hover {
+      background: var(--pink-dim);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(255,45,120,0.35);
+    }
+    .btn-ghost {
+      display: inline-block;
+      border: 1px solid var(--border);
+      color: var(--white);
+      text-decoration: none;
+      padding: 16px 40px;
+      border-radius: 8px;
+      font-weight: 500;
+      font-size: 1rem;
+      margin-left: 16px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .btn-ghost:hover { border-color: var(--pink); color: var(--pink); }
+    .hero-btns { display: flex; flex-wrap: wrap; gap: 12px; }
+
+    /* scroll indicator */
+    .scroll-indicator {
+      position: absolute;
+      bottom: 40px; left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--gray);
+      font-size: 0.75rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .scroll-dot {
+      width: 1px; height: 48px;
+      background: linear-gradient(to bottom, var(--pink), transparent);
+    }
+
+    /* ── SECTION HEADER ── */
+    .section-label {
+      display: inline-block;
+      color: var(--pink);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -1px;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+    .section-desc {
+      color: var(--gray);
+      max-width: 560px;
+      font-size: 1rem;
+      margin-bottom: 60px;
+    }
+
+    /* ── O QUE FAZEMOS ── */
+    #servicos { background: var(--dark); }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .service-card {
+      background: var(--card);
+      padding: 36px 32px;
+      transition: background 0.2s;
+    }
+    .service-card:hover { background: #1f1f1f; }
+    .service-icon {
+      width: 48px; height: 48px;
+      background: rgba(255,45,120,0.12);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 20px;
+      font-size: 1.4rem;
+    }
+    .service-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .service-card p { color: var(--gray); font-size: 0.9rem; line-height: 1.65; }
+
+    /* ── COMO TRABALHAMOS ── */
+    #metodologia { background: var(--black); }
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 32px;
+    }
+    .step {
+      position: relative;
+      padding: 36px 28px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .step:hover { border-color: var(--pink); transform: translateY(-4px); }
+    .step-num {
+      font-family: 'Syne', sans-serif;
+      font-size: 3rem;
+      font-weight: 800;
+      color: rgba(255,45,120,0.15);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+    .step h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--white);
+    }
+    .step p { color: var(--gray); font-size: 0.875rem; line-height: 1.65; }
+
+    /* ── DIFERENCIAIS ── */
+    #diferenciais { background: var(--dark); }
+    .diff-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+    }
+    @media (max-width: 680px) { .diff-grid { grid-template-columns: 1fr; } }
+    .diff-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 36px 32px;
+      display: flex;
+      gap: 20px;
+      transition: border-color 0.2s;
+    }
+    .diff-card:hover { border-color: var(--pink); }
+    .diff-icon {
+      flex-shrink: 0;
+      width: 44px; height: 44px;
+      background: var(--pink);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+    }
+    .diff-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .diff-card p { color: var(--gray); font-size: 0.875rem; line-height: 1.65; }
+
+    /* ── CTA FINAL ── */
+    #cta-final {
+      background: var(--black);
+      text-align: center;
+    }
+    .cta-box {
+      background: linear-gradient(135deg, rgba(255,45,120,0.1) 0%, rgba(255,45,120,0.04) 100%);
+      border: 1px solid rgba(255,45,120,0.25);
+      border-radius: 20px;
+      padding: 80px 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta-box::before {
+      content: '';
+      position: absolute;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,45,120,0.12) 0%, transparent 70%);
+      top: -200px; right: -150px;
+      pointer-events: none;
+    }
+    .cta-box .section-title { margin-bottom: 16px; }
+    .cta-box p {
+      color: var(--gray);
+      font-size: 1.1rem;
+      margin-bottom: 44px;
+    }
+    .cta-box a.btn-primary { font-size: 1.05rem; padding: 18px 48px; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--dark);
+      border-top: 1px solid var(--border);
+      padding: 36px 6vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    footer .logo { font-size: 1.2rem; }
+    footer p { color: var(--gray); font-size: 0.8rem; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 760px) {
+      section { padding: 72px 5vw; }
+      .btn-ghost { margin-left: 0; }
+      nav { padding: 16px 5vw; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <a href="#" class="logo">loo<span>m</span>i</a>
+    <a href="mailto:hey@loomi.com.br" class="nav-cta">Fale com a gente</a>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="container">
+      <div class="reveal">
+        <span class="hero-label">Software House Brasileira</span>
+        <h1 class="hero-title">
+          Da ideia ao produto.<br/>
+          <em>Sem atalhos.</em>
+        </h1>
+        <p class="hero-subtitle">
+          Construímos produtos digitais sob medida — com time completo,
+          metodologia ágil e foco em resultado real para o seu negócio.
+        </p>
+        <div class="hero-btns">
+          <a href="mailto:hey@loomi.com.br" class="btn-primary">Fale com a gente</a>
+          <a href="#servicos" class="btn-ghost">O que fazemos</a>
+        </div>
+      </div>
+    </div>
+    <div class="scroll-indicator">
+      <span>scroll</span>
+      <div class="scroll-dot"></div>
+    </div>
+  </section>
+
+  <!-- O QUE FAZEMOS -->
+  <section id="servicos">
+    <div class="container">
+      <div class="reveal">
+        <span class="section-label">Serviços</span>
+        <h2 class="section-title">O que fazemos</h2>
+        <p class="section-desc">Do front ao back, do design à infra — entregamos o produto completo, não apenas partes.</p>
+      </div>
+      <div class="services-grid reveal">
+        <div class="service-card">
+          <div class="service-icon">🌐</div>
+          <h3>Web</h3>
+          <p>Aplicações web performáticas e escaláveis, de portais institucionais a plataformas complexas com alto tráfego.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">📱</div>
+          <h3>Mobile</h3>
+          <p>Apps nativos e híbridos para iOS e Android com experiência fluida e integração total ao ecossistema do produto.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">⚙️</div>
+          <h3>Back-end</h3>
+          <p>APIs robustas, microsserviços e integrações com terceiros. Arquitetura pensada para crescer junto com o negócio.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">🎨</div>
+          <h3>Design</h3>
+          <p>UX research, design system e protótipos validados com usuários reais — antes de escrever uma linha de código.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">☁️</div>
+          <h3>DevOps</h3>
+          <p>Infraestrutura em cloud, pipelines de CI/CD, monitoramento e tudo que garante entregas rápidas e seguras.</p>
+        </div>
+        <div class="service-card">
+          <div class="service-icon">✅</div>
+          <h3>QA</h3>
+          <p>Testes automatizados e manuais integrados ao processo — qualidade não é etapa final, é parte de cada sprint.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMO TRABALHAMOS -->
+  <section id="metodologia">
+    <div class="container">
+      <div class="reveal">
+        <span class="section-label">Metodologia</span>
+        <h2 class="section-title">Como trabalhamos</h2>
+        <p class="section-desc">Dual Track Agile — descoberta e entrega rodando em paralelo, com cadência previsível e visibilidade total.</p>
+      </div>
+      <div class="steps">
+        <div class="step reveal">
+          <div class="step-num">01</div>
+          <h3>Discovery & Design</h3>
+          <p>Mergulhamos no problema, mapeamos usuários e validamos hipóteses antes de qualquer linha de código.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">02</div>
+          <h3>Sprints de 2 semanas</h3>
+          <p>Ciclos curtos com backlog priorizado, rituais enxutos e entregas contínuas de valor ao longo do projeto.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">03</div>
+          <h3>Demos quinzenais</h3>
+          <p>A cada sprint você vê o produto funcionando, dá feedback e ajusta o rumo — sem surpresas no final.</p>
+        </div>
+        <div class="step reveal">
+          <div class="step-num">04</div>
+          <h3>Entrega & Evolução</h3>
+          <p>Deploy com suporte, documentação e handoff completo. Garantia de 90 dias pós-entrega inclusa.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIFERENCIAIS -->
+  <section id="diferenciais">
+    <div class="container">
+      <div class="reveal">
+        <span class="section-label">Por que a Loomi</span>
+        <h2 class="section-title">Nossos diferenciais</h2>
+        <p class="section-desc">Previsibilidade, compromisso e qualidade — do kickoff ao pós-lançamento.</p>
+      </div>
+      <div class="diff-grid">
+        <div class="diff-card reveal">
+          <div class="diff-icon">🔒</div>
+          <div>
+            <h3>Escopo fechado com previsibilidade</h3>
+            <p>Definimos juntos o escopo, prazo e orçamento. Você sabe exatamente o que vai receber e quando — sem surpresas desagradáveis no contrato.</p>
+          </div>
+        </div>
+        <div class="diff-card reveal">
+          <div class="diff-icon">👥</div>
+          <div>
+            <h3>Time completo alocado</h3>
+            <p>PO, designers, devs front, back, mobile, QA e DevOps dedicados ao seu projeto. Uma squad real, não freelancers colados.</p>
+          </div>
+        </div>
+        <div class="diff-card reveal">
+          <div class="diff-icon">🛡️</div>
+          <div>
+            <h3>Garantia de 90 dias</h3>
+            <p>Após a entrega, cobrimos correções de bugs e ajustes sem custo adicional. Ficamos ao lado do produto nos primeiros 3 meses.</p>
+          </div>
+        </div>
+        <div class="diff-card reveal">
+          <div class="diff-icon">📊</div>
+          <div>
+            <h3>Visibilidade total</h3>
+            <p>Dashboard de projeto, demos quinzenais e comunicação direta — você acompanha cada etapa em tempo real, sem intermediários.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section id="cta-final">
+    <div class="container">
+      <div class="cta-box reveal">
+        <h2 class="section-title">Vamos construir juntos?</h2>
+        <p>Conte sua ideia. Nossa equipe entra em contato em até 24 horas.</p>
+        <a href="mailto:hey@loomi.com.br" class="btn-primary">hey@loomi.com.br</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <a href="https://loomi.digital" class="logo" target="_blank" rel="noopener">loo<span>m</span>i</a>
+    <p>© 2026 Loomi Digital. Todos os direitos reservados.</p>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => observer.observe(el));
+
+    // Stagger children in grids
+    document.querySelectorAll('.services-grid, .steps, .diff-grid').forEach(grid => {
+      const children = grid.querySelectorAll('.service-card, .step, .diff-card');
+      children.forEach((child, i) => {
+        child.style.transitionDelay = `${i * 80}ms`;
+      });
+    });
+  </script>
+</body>
+</html>
